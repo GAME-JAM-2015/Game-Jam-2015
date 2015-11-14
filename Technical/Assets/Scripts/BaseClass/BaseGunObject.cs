@@ -27,6 +27,12 @@ public class BaseGunObject : BaseObject {
     public float critDamage; //Chi so crit damage
     public float critDamagePercent; //ty le crit damage
     public float stunPercent; // ty le stun
+    //Thong so cua sung
+    public float velocityNormalX; //Van toc X ban dau
+    public float velocityNormalY; //Van toc Y ban dau
+    public float accelerationNormalX; // Gia toc X
+    public float accelerationNormalY; // Gia toc Y
+
     //public Animator gunAnimator; //Animator cua gun
     //public float animationSpeed; //Toc do chuyen frame trang thai ban
     //public float totalFrame; //Tong so Frame
@@ -76,6 +82,10 @@ public class BaseGunObject : BaseObject {
                 baseBullet.IsCritDamge = false;
                 baseBullet.CritDamge = 0.0f;
                 baseBullet.IsStun = false;
+                baseBullet.velocityNormalX = velocityNormalX;
+                baseBullet.velocityNormalY = velocityNormalY;
+                baseBullet.accelerationNormalX = accelerationNormalX;
+                baseBullet.accelerationNormalY = accelerationNormalY;
                 if (critDamagePercent >= randomCrit && critDamagePercent > 0)
                 {
                     baseBullet.IsCritDamge = true;
@@ -86,6 +96,7 @@ public class BaseGunObject : BaseObject {
                     baseBullet.IsStun = true;
                 }
                 baseBullet.InitObject();
+                baseBullet.BulletType = bulletType;
                 quantumOfBullet -= 1;
                 //baseBullet.ResetValueOfAvariable();
                 allowShoot = false;
