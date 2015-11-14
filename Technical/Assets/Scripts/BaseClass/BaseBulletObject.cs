@@ -66,6 +66,8 @@ public abstract class BaseBulletObject : BaseMoveObject
         gameObjectType = BaseObjectType.OB_GUN;
         positionBegin = transform.position;
         //direction = BaseDirectionType.UP;
+
+        //isStun = true;      // test enemy stun
     }
 
     public override void Move()
@@ -163,6 +165,7 @@ public abstract class BaseBulletObject : BaseMoveObject
             if (bulletType == BaseBulletType.BL_SLOW)
             {
                 baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_SLOW, 2.5f, 0.2f);
+                ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_HYPNOSIS, other.transform.position);
                 baseEnemy.SetColor(new Color(0, 0.5f, 0));
             }
             else if (bulletType == BaseBulletType.BL_HYPNOSIS)
@@ -178,10 +181,10 @@ public abstract class BaseBulletObject : BaseMoveObject
             }
             else if (isStun)
             {
-                baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_STUN, 1f, 0.0f);
+                baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_STUN, 2f, 0.0f);
+                ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_STUN, other.transform.position);    // partical stun
                 baseEnemy.SetColor(new Color(1.0f, 0.5f, 0));
 #if UNITY_EDITOR
-                Debug.Log("Enemy dang bi stun1");
 #endif
             }
             else

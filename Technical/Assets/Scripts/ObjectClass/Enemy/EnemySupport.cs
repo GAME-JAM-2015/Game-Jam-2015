@@ -36,6 +36,7 @@ public class EnemySupport : BaseEnemyObject {
     {
         base.UpdateObject();
     }
+
     public override void Move()
     {
         //Debug.Log("move");

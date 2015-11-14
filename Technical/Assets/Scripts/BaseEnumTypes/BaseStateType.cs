@@ -9,7 +9,6 @@ public enum BaseStateType
     ES_RUN = 2,
     ES_DIE = 3,
     ES_JUMP = 4,
-    
 
     //Player State Type
     PS_IDLE = 5,

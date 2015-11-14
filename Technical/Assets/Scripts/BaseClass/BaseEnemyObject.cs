@@ -21,6 +21,7 @@ public abstract class BaseEnemyObject : BaseMoveObject
     public EffectRenderer effectRenderer; //Quan ly viec sinh ra effect
     //
     public UIHealth hpView; //Hien thi thanh mau
+    public GameObject objShowHP; // 
     //
     public SpriteRenderer spriteRenderer;
     public Color colorOld; //Mau truoc do cua sprite
@@ -40,7 +41,6 @@ public abstract class BaseEnemyObject : BaseMoveObject
 
     public virtual void ResetColor(float _time)
     {
-
         Invoke("ResetColor", _time);
     }
 
@@ -57,10 +57,16 @@ public abstract class BaseEnemyObject : BaseMoveObject
     public override void InitObject()
     {
         base.InitObject();
-        gameObjectType = BaseObjectType.OB_ENEMY;
+        //gameObjectType = BaseObjectType.OB_ENEMY;
         positionBegin = transform.position;
         InitStateMachine();
+        //if(gameObjectType != BaseObjectType.OBE_ENEMY_FLY)
+        //{
+        //    stateMachine.ChangeState(BaseStateType.ES_IDLE);
+        //}
+
         stateMachine.ChangeState(BaseStateType.ES_IDLE);
+
         healthPoint = healthBegin;
         this.hpView.UpdateHealthPoint(healthPoint / healthBegin);
         isAlive = true;
@@ -134,6 +140,7 @@ public abstract class BaseEnemyObject : BaseMoveObject
     public abstract void Idle();
 
     public abstract void Die();
+
 }
 
 class EnemyIdleState : IState

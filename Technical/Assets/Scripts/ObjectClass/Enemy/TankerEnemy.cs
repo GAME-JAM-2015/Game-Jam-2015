@@ -3,8 +3,23 @@ using System.Collections;
 
 public class TankerEnemy : BaseEnemyObject {
 
+    // enemy fly
     public Transform hitPosition;
+    public GameObject objUmbrella;
+    public float timeAllowhypnosis = 2.0f;
 
+
+    public override void InitObject()
+    {
+        if(gameObjectType == BaseObjectType.OBE_ENEMY_FLY)
+        {
+            objUmbrella = transform.FindChild("Umbrella").gameObject;
+            objUmbrella.SetActive(true);
+            objShowHP.SetActive(false);
+
+        }
+        base.InitObject();
+    }
     public override void KillPlayer()
     {
         throw new System.NotImplementedException();
@@ -61,7 +76,6 @@ public class TankerEnemy : BaseEnemyObject {
             }
             else
             {
-            
                 this.SetColor(new Color(255, 255, 255));
             }
             //heffectRenderer.RemoveStatModifier(BaseStatModifierType.BSM_SLOW);
@@ -70,13 +84,48 @@ public class TankerEnemy : BaseEnemyObject {
         {
             if (!effectRenderer.RemoveStatModifier(BaseStatModifierType.BSM_STUN))
             {
-                Debug.Log("enemy bi stun!");
+                switch (direction)
+                {
+                    case BaseDirectionType.UP:
+                        positionBegin.y += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vy * Time.deltaTime;
+                        break;
+                    case BaseDirectionType.LEFT:
+                        positionBegin.x -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vx * Time.deltaTime;
+                        break;
+                    case BaseDirectionType.RIGHT:
+                        positionBegin.x += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vx * Time.deltaTime;
+                        break;
+                    case BaseDirectionType.DOWN:
+                        positionBegin.y -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vy * Time.deltaTime;
+                        break;
+                    case BaseDirectionType.LEFT_UP:
+                        positionBegin.x -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vx * Time.deltaTime;
+                        positionBegin.y += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vy * Time.deltaTime;
+                        break;
+                    case BaseDirectionType.RIGHT_UP:
+                        positionBegin.x += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vx * Time.deltaTime;
+                        positionBegin.y += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vy * Time.deltaTime;
+                        break;
+                    case BaseDirectionType.LEFT_DOWN:
+                        positionBegin.x -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vx * Time.deltaTime;
+                        positionBegin.y -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vy * Time.deltaTime;
+                        break;
+                    case BaseDirectionType.RIGHT_DOWN:
+                        positionBegin.x += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vx * Time.deltaTime;
+
+                        positionBegin.y -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vy * Time.deltaTime;
+                        break;
+                    case BaseDirectionType.NONE:
+                        break;
+                    default:
+                        break;
+                }
             }
             else
             {
-                Debug.Log("enemy bi huy stun!");
+                //Debug.Log("enemy bi huy stun!");
+                this.SetColor(new Color(255, 255, 255));
             }
-
         }
         else
         {
@@ -203,6 +252,7 @@ public class TankerEnemy : BaseEnemyObject {
         }
     }
 
+    // RUN
     public override void Run()
     {
         if (healthPoint <= 0)
@@ -273,12 +323,42 @@ public class TankerEnemy : BaseEnemyObject {
             ReceiveDamge(itemBom.damge);
             //Debug.Log(timeRandom);
         }
+        if(other.gameObject.tag == "Bullet")
+        {
+            BaseBulletObject baseBullet = other.gameObject.GetComponent<BaseBulletObject>();
+            switch(baseBullet.BulletType)
+            {
+                case BaseBulletType.BL_HYPNOSIS:
+                    ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_HYPNOSIS, transform.position);
+                    direction = BaseDirectionType.UP;
+                    Invoke("AllowHypnosis", timeAllowhypnosis);
+                    break;
+                case BaseBulletType.BL_FLY:
+                    objUmbrella.SetActive(false);
+                    objShowHP.SetActive(true);
+                    break;
+            }
+        }
+        if(other.tag == "Diffuse")
+        {
+            PoolCustomize.Instance.HideBaseObject(other.gameObject, "Item", 0.3f); 
+            float timeRandom = Random.Range(0.2f, 0.8f);
+            Invoke("InstantialeParticalExplosion", timeRandom); // Instantiale partical
+            BaseBulletObject basebullet = other.transform.parent.GetComponent<BaseBulletObject>();
+            if (basebullet != null)
+            {
+                ReceiveDamge(basebullet.Damge);
+            }
+        }
     }
-
+    public void AllowHypnosis()
+    {
+        direction = BaseDirectionType.DOWN;
+    }
     public void InstantialeParticalExplosion()
     {
-        //AudioManager.Instance.Play(BaseAudioType.BA_ENEMY_BOM_ITEM,false);
-        AudioSource.PlayClipAtPoint(AudioManager.Instance.GetSoundByType(BaseAudioType.BA_ENEMY_BOM_ITEM), transform.position);
+
+        //AudioSource.PlayClipAtPoint(AudioManager.Instance.GetSoundByType(BaseAudioType.BA_ENEMY_BOM_ITEM), transform.position);           // viet note
         ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_BOM_ITEM_EXPLOSION, transform.position);
     }
     public void OnTriggerExit2D(Collider2D other)

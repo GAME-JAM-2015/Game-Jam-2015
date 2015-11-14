@@ -12,6 +12,7 @@ public class AutoGun : BaseGunObject, IAnimatedSprite {
     public override void InitObject()
     {
         base.InitObject();
+        
         //this.CalAnimationSpeed();
     }
 

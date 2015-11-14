@@ -11,6 +11,7 @@ public enum BaseObjectType
     OB_OTHER = 5,
     // object 
     OBE_ENEMY_TANKER = 6,
+    OBE_ENEMY_FLY = 40,
     OBE_ENEMY_OTHER = 7,
     OBB_BOM_ITEM = 8,
     // particaL
@@ -19,7 +20,9 @@ public enum BaseObjectType
     OBP_ENEMY_DIE = 12,
     OBP_WALL_FALL = 13,
     OBP_GROUND_WOOD_HIT =14,
-    OBP_BOM_ITEM_EXPLOSION,
+    OBP_BOM_ITEM_EXPLOSION=15,
+    OBP_ENEMY_STUN = 16,
+    OBP_ENEMY_HYPNOSIS = 17,
     //UI
     OU_COIN = 20,
     OU_NUMBER = 21,
