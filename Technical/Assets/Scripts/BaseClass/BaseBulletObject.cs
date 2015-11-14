@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class BaseBulletObject : BaseMoveObject {
+public abstract class BaseBulletObject : BaseMoveObject
+{
 
     protected float damge; // Damge cua dan
     protected BaseBulletType bulletType; //Thong so chi loai dan
@@ -11,6 +12,9 @@ public abstract class BaseBulletObject : BaseMoveObject {
     protected bool isStun; //Dan nay co stun
     protected bool isCritDamge; // Dan nay co crit damge hay ko
     protected float critDamge; //Damge tang them bao nhieu %
+
+    //Range neu co
+    public RangeOfBullet rangeOfBullet; //Range cua dan
 
     public bool IsStun
     {
@@ -121,7 +125,7 @@ public abstract class BaseBulletObject : BaseMoveObject {
     public override void DestroyObject()
     {
         //Dua bullet vao lai trong Pool
-        if (positionBegin.y <= Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)).y || 
+        if (positionBegin.y <= Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)).y ||
             positionBegin.y >= Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0.0f)).y ||
             positionBegin.x <= Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)).x ||
             positionBegin.x >= Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0.0f)).x
@@ -141,7 +145,7 @@ public abstract class BaseBulletObject : BaseMoveObject {
         {
             // spawn partical 
             ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_EXPLOSION_C_E_B, transform.position);
-            
+
             BaseEnemyObject baseEnemy = other.gameObject.GetComponent<BaseEnemyObject>();
             if (baseEnemy.healthPoint > 0)
             {
@@ -160,38 +164,50 @@ public abstract class BaseBulletObject : BaseMoveObject {
             {
                 baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_SLOW, 2.5f, 0.2f);
                 baseEnemy.SetColor(new Color(0, 0.5f, 0));
-            } else if(isStun)
-            {
-                baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_STUN, 1f, 0.0f);
-                baseEnemy.SetColor(new Color(1.0f, 0.5f, 0));
-#if UNITY_EDITOR
-                Debug.Log("Enemy dang bi stun1");
-#endif
             }
-            else 
+            else if (bulletType == BaseBulletType.BL_HYPNOSIS)
             {
-                baseEnemy.SetColor(new Color(0.8f, 0.2f, 0.2f, 1f));
-                baseEnemy.ResetColor(0.5f);
-
-                if (!baseEnemy.effectRenderer.Contains(BaseStatModifierType.BSM_SLOW) )
+                if (rangeOfBullet != null)
+                {
+                    foreach (var enemy in rangeOfBullet.enemyInBoxs)
+                    {
+                        //Tru giap tat ca enemy nay
+                        //Dien hieu ung
+                    }
+                }
+                else if (isStun)
+                {
+                    baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_STUN, 1f, 0.0f);
+                    baseEnemy.SetColor(new Color(1.0f, 0.5f, 0));
+#if UNITY_EDITOR
+                    Debug.Log("Enemy dang bi stun1");
+#endif
+                }
+                else
                 {
                     baseEnemy.SetColor(new Color(0.8f, 0.2f, 0.2f, 1f));
                     baseEnemy.ResetColor(0.5f);
+
+                    if (!baseEnemy.effectRenderer.Contains(BaseStatModifierType.BSM_SLOW))
+                    {
+                        baseEnemy.SetColor(new Color(0.8f, 0.2f, 0.2f, 1f));
+                        baseEnemy.ResetColor(0.5f);
+                    }
                 }
             }
-        }
-        else if(other.tag =="Boss")
-        {
-            // instance partical
-            ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_EXPLOSION_C_E_B, transform.position);
-            //tru mau
-            BaseBossObject baseBoss = other.gameObject.GetComponent<BaseBossObject>();
-            if(baseBoss.healthPoint >0)
+            else if (other.tag == "Boss")
             {
-                baseBoss.ReceiveDamge(this.damge);
-                PoolCustomize.Instance.HideBaseObject(gameObject,"Bullet");
-            }
+                // instance partical
+                ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_EXPLOSION_C_E_B, transform.position);
+                //tru mau
+                BaseBossObject baseBoss = other.gameObject.GetComponent<BaseBossObject>();
+                if (baseBoss.healthPoint > 0)
+                {
+                    baseBoss.ReceiveDamge(this.damge);
+                    PoolCustomize.Instance.HideBaseObject(gameObject, "Bullet");
+                }
 
+            }
         }
     }
 }
