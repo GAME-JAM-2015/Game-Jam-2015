@@ -47,6 +47,7 @@ public class TankerEnemy : BaseEnemyObject {
                         break;
                     case BaseDirectionType.RIGHT_DOWN:
                         positionBegin.x += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vx * Time.deltaTime;
+                        
                         positionBegin.y -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vy * Time.deltaTime;
                         break;
                     case BaseDirectionType.NONE:
@@ -60,9 +61,22 @@ public class TankerEnemy : BaseEnemyObject {
             }
             else
             {
+            
                 this.SetColor(new Color(255, 255, 255));
             }
             //heffectRenderer.RemoveStatModifier(BaseStatModifierType.BSM_SLOW);
+        }
+        if (effectRenderer.Contains(BaseStatModifierType.BSM_STUN))
+        {
+            if (!effectRenderer.RemoveStatModifier(BaseStatModifierType.BSM_STUN))
+            {
+                Debug.Log("enemy bi stun!");
+            }
+            else
+            {
+                Debug.Log("enemy bi huy stun!");
+            }
+
         }
         else
         {

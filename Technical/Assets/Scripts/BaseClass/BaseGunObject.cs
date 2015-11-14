@@ -81,7 +81,8 @@ public class BaseGunObject : BaseObject {
                 baseBullet.direction = directionOfShoot;
                 baseBullet.IsCritDamge = false;
                 baseBullet.CritDamge = 0.0f;
-                baseBullet.IsStun = false;
+                //baseBullet.IsStun = false;
+                baseBullet.IsStun = true; // test enemy
                 baseBullet.velocityNormalX = velocityNormalX;
                 baseBullet.velocityNormalY = velocityNormalY;
                 baseBullet.accelerationNormalX = accelerationNormalX;

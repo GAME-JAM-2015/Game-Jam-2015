@@ -156,14 +156,24 @@ public abstract class BaseBulletObject : BaseMoveObject {
                 PoolCustomize.Instance.HideBaseObject(gameObject, "Bullet");
             }
 
-            if (bulletType == BaseBulletType.BL_SLOW || IsStun)
+            if (bulletType == BaseBulletType.BL_SLOW)
             {
                 baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_SLOW, 2.5f, 0.2f);
                 baseEnemy.SetColor(new Color(0, 0.5f, 0));
-            }
-            else
+            } else if(isStun)
             {
-                if (!baseEnemy.effectRenderer.Contains(BaseStatModifierType.BSM_SLOW))
+                baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_STUN, 1f, 0.0f);
+                baseEnemy.SetColor(new Color(1.0f, 0.5f, 0));
+#if UNITY_EDITOR
+                Debug.Log("Enemy dang bi stun1");
+#endif
+            }
+            else 
+            {
+                baseEnemy.SetColor(new Color(0.8f, 0.2f, 0.2f, 1f));
+                baseEnemy.ResetColor(0.5f);
+
+                if (!baseEnemy.effectRenderer.Contains(BaseStatModifierType.BSM_SLOW) )
                 {
                     baseEnemy.SetColor(new Color(0.8f, 0.2f, 0.2f, 1f));
                     baseEnemy.ResetColor(0.5f);
