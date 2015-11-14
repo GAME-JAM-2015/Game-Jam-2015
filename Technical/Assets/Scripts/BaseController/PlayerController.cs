@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour {
     public float score;
     //public Transform scorePosition;
     public GunController gunController;
+    public int cowboyLevel = 1;
+    public int cowboyEpisode = 2;
 
     void Start()
     {

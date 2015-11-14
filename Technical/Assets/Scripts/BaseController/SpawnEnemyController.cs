@@ -32,7 +32,7 @@ public class SpawnEnemyController : MonoSingleton<SpawnEnemyController> {
         //isSpawn = true;
         enemyInScreen = new List<BaseEnemyObject>();
         CalIndexBegin();
-        //SpawnGroupEnemyWithMap(); 
+        //SpawnGroupEnemyWithMap();
     }
 
     void Update()
@@ -40,12 +40,12 @@ public class SpawnEnemyController : MonoSingleton<SpawnEnemyController> {
         if (groupEnemyCurrentIndex < ENEMY_GROUP_MAX && enemyInScreen.Count <= 0)
         {
             //Invoke("SpawnGroupEnemy", timeWaitSpawnEnemyNormal);
-            //SpawnGroupEnemyWithMap();    // close for test stun
+            //SpawnGroupEnemyWithMap();
             //isSpawn = true;
         }else if(isCreateBoss && enemyInScreen.Count <=0)
         {
             GameObject obj_Boss = ManagerObject.Instance.SpawnEnemy(BaseObjectType.OB_BOSS_TANKER, tranformBossAppear.position);
-            //SpawnGroupEnemyWithMap();    //// close for test stun
+            //SpawnGroupEnemyWithMap();
             isCreateBoss = false;
         }
     }

@@ -37,8 +37,10 @@ public class TankerEnemy : BaseEnemyObject {
         }
         base.UpdateObject();
     }
+    public float count = 0;
     public override void Move()
     {
+        count += Time.deltaTime;
         vx += accelerationNormalX * Time.deltaTime;
         vy += accelerationNormalY * Time.deltaTime;
         //
