@@ -13,7 +13,7 @@ public class GunController : MonoSingleton<GunController>
     void Awake()
     {
         dicGunResources = new Dictionary<BaseGunType, GameObject>();
-        //InitGun();
+        InitGun();
     }
 
     public virtual void InitGun()
