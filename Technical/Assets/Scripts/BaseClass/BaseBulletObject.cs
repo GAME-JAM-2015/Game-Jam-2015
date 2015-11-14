@@ -164,7 +164,7 @@ public abstract class BaseBulletObject : BaseMoveObject
 
             if (bulletType == BaseBulletType.BL_SLOW)
             {
-                baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_SLOW, 2.5f, 0.2f);
+                baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_SLOW, 2.5f, 0.05f);
                 ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_HYPNOSIS, other.transform.position);
                 baseEnemy.SetColor(new Color(0, 0.5f, 0));
             }

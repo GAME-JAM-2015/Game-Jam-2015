@@ -9,6 +9,7 @@ public enum BaseBulletType
     BL_DIFFUSE = 5,
     BL_FLY = 6,
     BL_HYPNOSIS = 7,
+    BL_ARMOR = 8,
     BL_OTHER = 10
     
 }

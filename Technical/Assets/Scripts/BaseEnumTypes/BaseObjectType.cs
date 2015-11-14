@@ -12,6 +12,7 @@ public enum BaseObjectType
     // object 
     OBE_ENEMY_TANKER = 6,
     OBE_ENEMY_FLY = 40,
+    OBE_ENEMY_ARMOR = 41,
     OBE_ENEMY_OTHER = 7,
     OBB_BOM_ITEM = 8,
     // particaL

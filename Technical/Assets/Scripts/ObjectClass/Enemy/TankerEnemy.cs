@@ -8,6 +8,7 @@ public class TankerEnemy : BaseEnemyObject {
     public GameObject objUmbrella;
     public float timeAllowhypnosis = 2.0f;
 
+    private int armor = 10;
 
     public override void InitObject()
     {
@@ -112,7 +113,6 @@ public class TankerEnemy : BaseEnemyObject {
                         break;
                     case BaseDirectionType.RIGHT_DOWN:
                         positionBegin.x += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vx * Time.deltaTime;
-
                         positionBegin.y -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vy * Time.deltaTime;
                         break;
                     case BaseDirectionType.NONE:
@@ -336,6 +336,12 @@ public class TankerEnemy : BaseEnemyObject {
                 case BaseBulletType.BL_FLY:
                     objUmbrella.SetActive(false);
                     objShowHP.SetActive(true);
+                    break;
+                case BaseBulletType.BL_ARMOR:
+                    if(gameObjectType == BaseObjectType.OBE_ENEMY_ARMOR && armor !=0)
+                    {
+                        armor = 0;
+                    }
                     break;
             }
         }
