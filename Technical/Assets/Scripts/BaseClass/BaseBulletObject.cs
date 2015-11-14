@@ -175,39 +175,39 @@ public abstract class BaseBulletObject : BaseMoveObject
                         //Dien hieu ung
                     }
                 }
-                else if (isStun)
-                {
-                    baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_STUN, 1f, 0.0f);
-                    baseEnemy.SetColor(new Color(1.0f, 0.5f, 0));
+            }
+            else if (isStun)
+            {
+                baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_STUN, 1f, 0.0f);
+                baseEnemy.SetColor(new Color(1.0f, 0.5f, 0));
 #if UNITY_EDITOR
-                    Debug.Log("Enemy dang bi stun1");
+                Debug.Log("Enemy dang bi stun1");
 #endif
-                }
-                else
+            }
+            else
+            {
+                baseEnemy.SetColor(new Color(0.8f, 0.2f, 0.2f, 1f));
+                baseEnemy.ResetColor(0.5f);
+
+                if (!baseEnemy.effectRenderer.Contains(BaseStatModifierType.BSM_SLOW))
                 {
                     baseEnemy.SetColor(new Color(0.8f, 0.2f, 0.2f, 1f));
                     baseEnemy.ResetColor(0.5f);
-
-                    if (!baseEnemy.effectRenderer.Contains(BaseStatModifierType.BSM_SLOW))
-                    {
-                        baseEnemy.SetColor(new Color(0.8f, 0.2f, 0.2f, 1f));
-                        baseEnemy.ResetColor(0.5f);
-                    }
                 }
             }
-            else if (other.tag == "Boss")
+        }
+        else if (other.tag == "Boss")
+        {
+            // instance partical
+            ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_EXPLOSION_C_E_B, transform.position);
+            //tru mau
+            BaseBossObject baseBoss = other.gameObject.GetComponent<BaseBossObject>();
+            if (baseBoss.healthPoint > 0)
             {
-                // instance partical
-                ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_EXPLOSION_C_E_B, transform.position);
-                //tru mau
-                BaseBossObject baseBoss = other.gameObject.GetComponent<BaseBossObject>();
-                if (baseBoss.healthPoint > 0)
-                {
-                    baseBoss.ReceiveDamge(this.damge);
-                    PoolCustomize.Instance.HideBaseObject(gameObject, "Bullet");
-                }
-
+                baseBoss.ReceiveDamge(this.damge);
+                PoolCustomize.Instance.HideBaseObject(gameObject, "Bullet");
             }
+
         }
     }
 }
