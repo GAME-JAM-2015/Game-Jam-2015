@@ -26,6 +26,9 @@ public abstract class BaseEnemyObject : BaseMoveObject
     public SpriteRenderer spriteRenderer;
     public Color colorOld; //Mau truoc do cua sprite
 
+    public int armor = 0;
+
+    public GameObject objUmbrella;
     public virtual void SetColor(Color _color)
     {
         spriteRenderer.color = _color;
@@ -60,6 +63,16 @@ public abstract class BaseEnemyObject : BaseMoveObject
         //gameObjectType = BaseObjectType.OB_ENEMY;
         positionBegin = transform.position;
         InitStateMachine();
+        if(gameObjectType == BaseObjectType.OBE_ENEMY_ARMOR)
+        {
+            armor = 10;
+        }
+        if (gameObjectType == BaseObjectType.OBE_ENEMY_FLY)
+        {
+            objUmbrella = transform.FindChild("Umbrella").gameObject;
+            objUmbrella.SetActive(true);
+            objShowHP.SetActive(false);
+        }
         //if(gameObjectType != BaseObjectType.OBE_ENEMY_FLY)
         //{
         //    stateMachine.ChangeState(BaseStateType.ES_IDLE);

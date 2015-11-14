@@ -5,27 +5,38 @@ public class TankerEnemy : BaseEnemyObject {
 
     // enemy fly
     public Transform hitPosition;
-    public GameObject objUmbrella;
-    public float timeAllowhypnosis = 2.0f;
+    
 
-    private int armor = 10;
+    //public int armor = 10;
 
     public override void InitObject()
     {
-        if(gameObjectType == BaseObjectType.OBE_ENEMY_FLY)
-        {
-            objUmbrella = transform.FindChild("Umbrella").gameObject;
-            objUmbrella.SetActive(true);
-            objShowHP.SetActive(false);
-
-        }
+        
         base.InitObject();
     }
     public override void KillPlayer()
     {
         throw new System.NotImplementedException();
     }
-
+    public override void UpdateObject()
+    {
+        if (effectRenderer.Contains(BaseStatModifierType.BSM_ARMOR))
+        {
+            if (effectRenderer.RemoveStatModifier(BaseStatModifierType.BSM_ARMOR))
+            {
+                armor = 10;
+               // Debug.Log(armor);
+            }
+        }
+        if(effectRenderer.Contains(BaseStatModifierType.BSM_HYPNOSIS))
+        {
+            if(effectRenderer.RemoveStatModifier(BaseStatModifierType.BSM_HYPNOSIS))
+            {
+                direction = BaseDirectionType.DOWN;
+            }
+        }
+        base.UpdateObject();
+    }
     public override void Move()
     {
         vx += accelerationNormalX * Time.deltaTime;
@@ -47,7 +58,8 @@ public class TankerEnemy : BaseEnemyObject {
                         positionBegin.x += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vx * Time.deltaTime;
                         break;
                     case BaseDirectionType.DOWN:
-                        positionBegin.y -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vy * Time.deltaTime;
+                        //Debug.Log(effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW));
+                        positionBegin.y -= (effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vy) * Time.deltaTime;
                         break;
                     case BaseDirectionType.LEFT_UP:
                         positionBegin.x -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vx * Time.deltaTime;
@@ -81,7 +93,7 @@ public class TankerEnemy : BaseEnemyObject {
             }
             //heffectRenderer.RemoveStatModifier(BaseStatModifierType.BSM_SLOW);
         }
-        if (effectRenderer.Contains(BaseStatModifierType.BSM_STUN))
+        else if (effectRenderer.Contains(BaseStatModifierType.BSM_STUN))
         {
             if (!effectRenderer.RemoveStatModifier(BaseStatModifierType.BSM_STUN))
             {
@@ -123,7 +135,7 @@ public class TankerEnemy : BaseEnemyObject {
             }
             else
             {
-                //Debug.Log("enemy bi huy stun!");
+                Debug.Log("enemy bi huy stun!");
                 this.SetColor(new Color(255, 255, 255));
             }
         }
@@ -170,7 +182,11 @@ public class TankerEnemy : BaseEnemyObject {
 
     public override void ReceiveDamge(float damge)
     {
-        this.healthPoint -=  damge;
+        if (armor != 0)
+        {
+            damge = (int)(damge - (armor*healthPoint)/100);
+        }
+        this.healthPoint -= damge;
         this.hpView.UpdateHealthPoint(healthPoint / healthBegin);
         try
         {
@@ -323,28 +339,35 @@ public class TankerEnemy : BaseEnemyObject {
             ReceiveDamge(itemBom.damge);
             //Debug.Log(timeRandom);
         }
-        if(other.gameObject.tag == "Bullet")
-        {
-            BaseBulletObject baseBullet = other.gameObject.GetComponent<BaseBulletObject>();
-            switch(baseBullet.BulletType)
-            {
-                case BaseBulletType.BL_HYPNOSIS:
-                    ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_HYPNOSIS, transform.position);
-                    direction = BaseDirectionType.UP;
-                    Invoke("AllowHypnosis", timeAllowhypnosis);
-                    break;
-                case BaseBulletType.BL_FLY:
-                    objUmbrella.SetActive(false);
-                    objShowHP.SetActive(true);
-                    break;
-                case BaseBulletType.BL_ARMOR:
-                    if(gameObjectType == BaseObjectType.OBE_ENEMY_ARMOR && armor !=0)
-                    {
-                        armor = 0;
-                    }
-                    break;
-            }
-        }
+        //if(other.gameObject.tag == "Bullet")
+        //{
+        //    BaseBulletObject baseBullet = other.gameObject.GetComponent<BaseBulletObject>();
+        //    switch(baseBullet.BulletType)
+        //    {
+        //        case BaseBulletType.BL_HYPNOSIS:
+        //            ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_HYPNOSIS, transform.position);
+        //            direction = BaseDirectionType.UP;
+        //            Invoke("AllowHypnosis", timeAllowhypnosis);
+        //            break;
+        //        case BaseBulletType.BL_FLY:
+        //            objUmbrella.SetActive(false);
+        //            objShowHP.SetActive(true);
+        //            break;
+        //        case BaseBulletType.BL_ARMOR:
+        //            //Debug.Log(armor);
+        //            if(gameObjectType == BaseObjectType.OBE_ENEMY_ARMOR && armor !=0)
+        //            {
+        //                effectRenderer.AddStatModifier(BaseStatModifierType.BSM_ARMOR, 2.0f, 10);
+        //                armor = 0;
+        //                //Debug.Log(armor);
+        //                ReceiveDamge(baseBullet.Damge);
+        //            }
+        //            break;
+        //        default:
+
+        //            break;
+        //    }
+        //}
         if(other.tag == "Diffuse")
         {
             PoolCustomize.Instance.HideBaseObject(other.gameObject, "Item", 0.3f); 
@@ -363,7 +386,6 @@ public class TankerEnemy : BaseEnemyObject {
     }
     public void InstantialeParticalExplosion()
     {
-
         //AudioSource.PlayClipAtPoint(AudioManager.Instance.GetSoundByType(BaseAudioType.BA_ENEMY_BOM_ITEM), transform.position);           // viet note
         ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_BOM_ITEM_EXPLOSION, transform.position);
     }

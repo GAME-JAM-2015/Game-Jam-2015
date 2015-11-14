@@ -7,6 +7,6 @@ public enum BaseStatModifierType{
     BSM_SLOW = 1,
     BSM_DAMGE = 2,
     BSM_DIFFUSE = 3,
-    HYPNOSIS = 4
-	
+    BSM_HYPNOSIS = 4,
+    BSM_ARMOR = 5
 }

@@ -147,8 +147,40 @@ public abstract class BaseBulletObject : BaseMoveObject
         {
             // spawn partical 
             ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_EXPLOSION_C_E_B, transform.position);
-
+            // bullet crit damge
             BaseEnemyObject baseEnemy = other.gameObject.GetComponent<BaseEnemyObject>();
+            
+            // bullet
+            switch(bulletType)
+            {
+                case BaseBulletType.BL_SLOW:
+                    baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_SLOW, 2.5f, 0.5f);
+                    ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_HYPNOSIS, other.transform.position);
+                    baseEnemy.SetColor(new Color(0, 0.5f, 0));
+                    break;
+                case BaseBulletType.BL_HYPNOSIS:
+                    baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_HYPNOSIS, 2.0f, 0);
+                    ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_HYPNOSIS, transform.position);
+                    baseEnemy.direction = BaseDirectionType.UP;
+                    break;
+                case BaseBulletType.BL_ARMOR:
+                    Debug.Log("-armor");
+                    if(bulletType == BaseBulletType.BL_ARMOR  && baseEnemy.armor !=0)
+                    {
+                        baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_ARMOR, 2.0f, 10);
+                        baseEnemy.armor = 0;
+                        baseEnemy.ReceiveDamge(Damge);
+                    }
+                    break;
+                case BaseBulletType.BL_FLY:
+                    baseEnemy.objUmbrella.SetActive(false);
+                    baseEnemy.objShowHP.SetActive(true);
+                    break;
+                default:
+                    //baseEnemy.ReceiveDamge(damge);
+                    break;
+            }
+
             if (baseEnemy.healthPoint > 0)
             {
                 if (IsCritDamge)
@@ -161,25 +193,7 @@ public abstract class BaseBulletObject : BaseMoveObject
                 }
                 PoolCustomize.Instance.HideBaseObject(gameObject, "Bullet");
             }
-
-            if (bulletType == BaseBulletType.BL_SLOW)
-            {
-                baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_SLOW, 2.5f, 0.05f);
-                ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_HYPNOSIS, other.transform.position);
-                baseEnemy.SetColor(new Color(0, 0.5f, 0));
-            }
-            else if (bulletType == BaseBulletType.BL_HYPNOSIS)
-            {
-                if (rangeOfBullet != null)
-                {
-                    foreach (var enemy in rangeOfBullet.enemyInBoxs)
-                    {
-                        //Tru giap tat ca enemy nay
-                        //Dien hieu ung
-                    }
-                }
-            }
-            else if (isStun)
+            if (isStun)
             {
                 baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_STUN, 2f, 0.0f);
                 ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_STUN, other.transform.position);    // partical stun
@@ -191,12 +205,6 @@ public abstract class BaseBulletObject : BaseMoveObject
             {
                 baseEnemy.SetColor(new Color(0.8f, 0.2f, 0.2f, 1f));
                 baseEnemy.ResetColor(0.5f);
-
-                if (!baseEnemy.effectRenderer.Contains(BaseStatModifierType.BSM_SLOW))
-                {
-                    baseEnemy.SetColor(new Color(0.8f, 0.2f, 0.2f, 1f));
-                    baseEnemy.ResetColor(0.5f);
-                }
             }
         }
         else if (other.tag == "Boss")
