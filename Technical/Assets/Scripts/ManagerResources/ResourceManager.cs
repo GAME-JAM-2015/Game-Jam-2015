@@ -10,7 +10,6 @@ public class ResourceManager : MonoSingleton<ResourceManager> {
     {
         //numberResources = new List<Sprite>();
         LoadSpriteFromFile(ref numberResources, "Images/BackGround/Number");
-        Debug.Log("Resources: " +  numberResources.Count);
     }
 
     void LoadSpriteFromFile(ref List<Sprite> _spriteResources, string _path)

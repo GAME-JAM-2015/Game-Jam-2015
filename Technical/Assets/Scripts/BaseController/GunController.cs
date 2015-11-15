@@ -32,7 +32,6 @@ public class GunController : MonoSingleton<GunController>
             if(config.gunType == _gunType)
             {
                 return config;
-                break;
             }
         }
 #if UNITY_EDITOR

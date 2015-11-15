@@ -36,7 +36,7 @@ public class InitEnemyController : MonoSingleton<InitEnemyController> {
                 //SpawnGroupEnemy();
                 //isSpawn = true;
                 groupEnemyCurrentIndex++;
-                GameController.Instance.player.cowboyEpisode++;
+                GameController.Instance.cowboyEpisode++;
                 UpdateGrid();
                 dicEnemyOfEpisode.Clear();  
                 isFinishedStage = false;
@@ -44,6 +44,7 @@ public class InitEnemyController : MonoSingleton<InitEnemyController> {
             else if (groupEnemyCurrentIndex >= ENEMY_GROUP_MAX)
             {
                 isFinishedLevel = true;
+                groupEnemyCurrentIndex = 0;
             }
         }
         
@@ -62,17 +63,8 @@ public class InitEnemyController : MonoSingleton<InitEnemyController> {
         CowboyRandomConfig cowboyRandomConfig = null;
         int cowboyLevel = 1;
         int cowbowEpisode = 2;
-        if (GameController.Instance.player != null)
-        {
-            cowboyLevel = GameController.Instance.player.cowboyLevel;
-            cowbowEpisode = GameController.Instance.player.cowboyEpisode;
-        }
-        else
-        {
-#if UNITY_EDITOR
-            Debug.Log("Chua co du lieu nguoi dung");
-#endif
-        }
+        cowboyLevel = GameController.Instance.cowboyLevel;
+        cowbowEpisode = GameController.Instance.cowboyEpisode;
         cowboyRandomConfig = BaseLoadData.cowboyRandomConfig.Find(x => x.cowboyLevel == cowboyLevel &&
                                                                 x.cowboyEpisode == cowbowEpisode);
         CowboyTimeConfig cowboyTimeConfig = null;
@@ -139,17 +131,8 @@ public class InitEnemyController : MonoSingleton<InitEnemyController> {
         int cowboyLevel = 1;
         int cowbowEpisode = 2;
         CowboyRandomConfig cowboyRandomConfig = null;
-        if (GameController.Instance.player != null)
-        {
-            cowboyLevel = GameController.Instance.player.cowboyLevel;
-            cowbowEpisode = GameController.Instance.player.cowboyEpisode;
-        }
-        else
-        {
-#if UNITY_EDITOR
-            Debug.Log("Chua co du lieu nguoi dung");
-#endif
-        }
+        cowboyLevel = GameController.Instance.cowboyLevel;
+        cowbowEpisode = GameController.Instance.cowboyEpisode;
         cowboyRandomConfig = BaseLoadData.cowboyRandomConfig.Find(x => x.cowboyLevel == cowboyLevel &&
                                                                 x.cowboyEpisode == cowbowEpisode);
         CowboyTimeConfig cowboyTimeConfig = null;
@@ -214,17 +197,8 @@ public class InitEnemyController : MonoSingleton<InitEnemyController> {
     {
         int cowboyLevel = 1;
         int cowboyEpiso = 2;
-        if (GameController.Instance.player != null)
-        {
-            cowboyLevel = GameController.Instance.player.cowboyLevel;
-            cowboyEpiso = GameController.Instance.player.cowboyEpisode;
-        }
-        else
-        {
-#if UNITY_EDITOR
-            Debug.Log("Chua co du lieu nguoi dung");
-#endif
-        }
+        cowboyLevel = GameController.Instance.cowboyLevel;
+        cowboyEpiso = GameController.Instance.cowboyEpisode;
         CowboyEpisode cowboyEpisode = BaseLoadData.cowboyEpisode.Find(x=>x.cowboyLevel == cowboyLevel
                                                                             && x.cowboyEpisode == cowboyEpiso);
         BaseObjectType baseObjectType;
@@ -236,13 +210,6 @@ public class InitEnemyController : MonoSingleton<InitEnemyController> {
         float rand5 = cowboyEpisode.enemyNormalPercent + cowboyEpisode.enemyTankPercent + cowboyEpisode.enemyFlashPercent + cowboyEpisode.enemyFlyPercent;
         float rand6 = cowboyEpisode.enemyNormalPercent + cowboyEpisode.enemyTankPercent + cowboyEpisode.enemyFlashPercent + cowboyEpisode.enemyFlyPercent + cowboyEpisode.enemyAntiDamgePhysicalPercent;
         float rand7 = cowboyEpisode.enemyNormalPercent + cowboyEpisode.enemyTankPercent + cowboyEpisode.enemyFlashPercent + cowboyEpisode.enemyFlyPercent + cowboyEpisode.enemyAntiDamgePhysicalPercent + cowboyEpisode.enemyBuffHealthPercent;
-        Debug.Log("Rand 1: " + rand1);
-        Debug.Log("Rand 2: " + rand2);
-        Debug.Log("Rand 3: " + rand3);
-        Debug.Log("Rand 4: " + rand4);
-        Debug.Log("Rand 5: " + rand5);
-        Debug.Log("Rand 6: " + rand6);
-        Debug.Log("Rand 7: "+ rand7);
         if (random >= rand1 && random <= rand2)
         {
             baseObjectType = BaseObjectType.OBE_ENEMY_NORMAL;

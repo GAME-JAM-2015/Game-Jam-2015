@@ -12,9 +12,15 @@ public class PlayerController : MonoBehaviour {
 
     void Start()
     {
+        
+    }
+
+    public void InitUserData()
+    {
         gunType = BaseGunType.BG_SHORT;
         ChangeGun(gunType);
     }
+
     public void ChangeGun(BaseGunType _gunType)
     {
         gunType = _gunType;
