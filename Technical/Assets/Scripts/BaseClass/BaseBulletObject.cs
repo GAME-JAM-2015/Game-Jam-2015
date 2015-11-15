@@ -145,11 +145,15 @@ public abstract class BaseBulletObject : BaseMoveObject
         }
         else if (other.tag == "Enemy")
         {
+           
             // spawn partical 
             ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_EXPLOSION_C_E_B, transform.position);
             // bullet crit damge
             BaseEnemyObject baseEnemy = other.gameObject.GetComponent<BaseEnemyObject>();
-            
+            if (bulletType != BaseBulletType.BL_FLY && baseEnemy.isFling == true)
+            {
+                return;
+            }
             // bullet
             switch(bulletType)
             {
@@ -173,8 +177,12 @@ public abstract class BaseBulletObject : BaseMoveObject
                     }
                     break;
                 case BaseBulletType.BL_FLY:
-                    baseEnemy.objUmbrella.SetActive(false);
-                    baseEnemy.objShowHP.SetActive(true);
+                    if (baseEnemy.isFling)
+                    {
+                        baseEnemy.isFling = false;
+                        baseEnemy.objUmbrella.SetActive(false);
+                        baseEnemy.objShowHP.SetActive(true);
+                    }
                     break;
                 default:
                     //baseEnemy.ReceiveDamge(damge);
@@ -187,9 +195,12 @@ public abstract class BaseBulletObject : BaseMoveObject
                 {
                     baseEnemy.ReceiveDamge(damge + (int)(damge * CritDamge));
                 }
-                else
+                else 
                 {
-                    baseEnemy.ReceiveDamge(damge);
+                    if (baseEnemy.isFling == false)
+                    {
+                        baseEnemy.ReceiveDamge(damge);
+                    }
                 }
                 PoolCustomize.Instance.HideBaseObject(gameObject, "Bullet");
             }

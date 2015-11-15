@@ -1,24 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TankerEnemy : BaseEnemyObject {
-
-    // enemy fly
+public class EnemyNormal : BaseEnemyObject {
     public Transform hitPosition;
 
-    //public int armor = 10;
-
-    public override void InitObject()
-    {
-        base.InitObject();
-    }
     public override void KillPlayer()
     {
         throw new System.NotImplementedException();
-    }
-    public override void UpdateObject()
-    {
-        base.UpdateObject();
     }
     public override void Move()
     {
@@ -59,7 +47,7 @@ public class TankerEnemy : BaseEnemyObject {
         //                break;
         //            case BaseDirectionType.RIGHT_DOWN:
         //                positionBegin.x += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vx * Time.deltaTime;
-                        
+
         //                positionBegin.y -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vy * Time.deltaTime;
         //                break;
         //            case BaseDirectionType.NONE:
@@ -163,12 +151,11 @@ public class TankerEnemy : BaseEnemyObject {
         //}
         //transform.position = positionBegin;
     }
-
     public override void ReceiveDamge(float damge)
     {
         if (armor != 0)
         {
-            damge = (int)(damge - (armor*healthPoint)/100);
+            damge = (int)(damge - (armor * healthPoint) / 100);
         }
         this.healthPoint -= damge;
         this.hpView.UpdateHealthPoint(healthPoint / healthBegin);
@@ -185,7 +172,6 @@ public class TankerEnemy : BaseEnemyObject {
 
         }
     }
-
     public void AllowAttack()
     {
         isIdle = false;
@@ -272,7 +258,6 @@ public class TankerEnemy : BaseEnemyObject {
 
     public void GiveDamge()
     {
-        Debug.Log("Cho damge");
         if (groundTarget != null)
         {
             if (groundTarget.healthPoint > 0)
@@ -282,7 +267,6 @@ public class TankerEnemy : BaseEnemyObject {
                 if (groundTarget.healthPoint <= 0)
                 {
                     groundTarget.DestroyObject();
-                    //Destroy(wallTarget.gameObject);
                     groundTarget = null;
                     attacking = false;
                     stateMachine.ChangeState(BaseStateType.ES_RUN);
@@ -303,58 +287,25 @@ public class TankerEnemy : BaseEnemyObject {
         ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_DIE, transform.position);
         PoolCustomize.Instance.HideBaseObject(gameObject, "Enemy");
     }
-
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Wall")
         {
-            //stateMachine.ChangeState(BaseStateType.ES_ATTACK);
             this.attacking = true;
             BaseWallObject baseWallObject = other.gameObject.GetComponent<BaseWallObject>();
             groundTarget = baseWallObject;
-            //baseWallObject.ReceiveDamge(this.damge);
         }
-        //if(other.gameObject.tag == "Bom")
-        //{
-        //    PoolCustomize.Instance.HideBaseObject(other.gameObject, "Item", 0.3f);
-        //    float timeRandom = Random.Range(0.2f, 0.8f);
-        //    Invoke("InstantialeParticalExplosion", timeRandom);
-        //    Item1 itemBom = other.gameObject.GetComponent<Item1>();
-        //    ReceiveDamge(itemBom.damge);
-        //    //Debug.Log(timeRandom);
-        //}
-        //if(other.gameObject.tag == "Bullet")
-        //{
-        //    BaseBulletObject baseBullet = other.gameObject.GetComponent<BaseBulletObject>();
-        //    switch(baseBullet.BulletType)
-        //    {
-        //        case BaseBulletType.BL_HYPNOSIS:
-        //            ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_HYPNOSIS, transform.position);
-        //            direction = BaseDirectionType.UP;
-        //            Invoke("AllowHypnosis", timeAllowhypnosis);
-        //            break;
-        //        case BaseBulletType.BL_FLY:
-        //            objUmbrella.SetActive(false);
-        //            objShowHP.SetActive(true);
-        //            break;
-        //        case BaseBulletType.BL_ARMOR:
-        //            //Debug.Log(armor);
-        //            if(gameObjectType == BaseObjectType.OBE_ENEMY_ARMOR && armor !=0)
-        //            {
-        //                effectRenderer.AddStatModifier(BaseStatModifierType.BSM_ARMOR, 2.0f, 10);
-        //                armor = 0;
-        //                //Debug.Log(armor);
-        //                ReceiveDamge(baseBullet.Damge);
-        //            }
-        //            break;
-        //        default:
-
-        //            break;
-        //    }
-        //}
-        if(other.tag == "Diffuse")
+        if (other.gameObject.tag == "Bom")
         {
-            PoolCustomize.Instance.HideBaseObject(other.gameObject, "Item", 0.3f); 
+            PoolCustomize.Instance.HideBaseObject(other.gameObject, "Item", 0.3f);
+            float timeRandom = Random.Range(0.2f, 0.8f);
+            Invoke("InstantialeParticalExplosion", timeRandom);
+            Item1 itemBom = other.gameObject.GetComponent<Item1>();
+            ReceiveDamge(itemBom.damge);
+        }
+        if (other.tag == "Diffuse")
+        {
+            PoolCustomize.Instance.HideBaseObject(other.gameObject, "Item", 0.3f);
             float timeRandom = Random.Range(0.2f, 0.8f);
             Invoke("InstantialeParticalExplosion", timeRandom); // Instantiale partical
             BaseBulletObject basebullet = other.transform.parent.GetComponent<BaseBulletObject>();
@@ -363,15 +314,6 @@ public class TankerEnemy : BaseEnemyObject {
                 ReceiveDamge(basebullet.Damge);
             }
         }
-    }
-    public void AllowHypnosis()
-    {
-        direction = BaseDirectionType.DOWN;
-    }
-    public void InstantialeParticalExplosion()
-    {
-        //AudioSource.PlayClipAtPoint(AudioManager.Instance.GetSoundByType(BaseAudioType.BA_ENEMY_BOM_ITEM), transform.position);           // viet note
-        ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_BOM_ITEM_EXPLOSION, transform.position);
     }
     public void OnTriggerExit2D(Collider2D other)
     {
