@@ -235,6 +235,7 @@ public class EnemyNormal : BaseEnemyObject {
         {
             isAlive = false;
             Invoke("DestroyObject", 0.2f);
+            AudioManager.Instance.PlayOneShot(BaseAudioType.BA_ENEMY_DIE_AUDIO);
         }
     }
 
@@ -313,6 +314,10 @@ public class EnemyNormal : BaseEnemyObject {
             {
                 ReceiveDamge(basebullet.Damge);
             }
+        }
+        if (other.tag == "LimiteMap")
+        {
+            GameController.Instance.screenController.ShowOnly(BaseScreenType.BS_GAME_OVER);
         }
     }
     public void OnTriggerExit2D(Collider2D other)

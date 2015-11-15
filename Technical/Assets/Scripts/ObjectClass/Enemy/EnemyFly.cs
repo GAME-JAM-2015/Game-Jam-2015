@@ -158,6 +158,11 @@ public class EnemyFly : BaseEnemyObject {
             BaseWallObject baseWallObject = other.gameObject.GetComponent<BaseWallObject>();
             groundTarget = baseWallObject;
         }
+        if (other.tag == "LimiteMap")
+        {
+            Debug.Log("game over !");
+            GameController.Instance.screenController.ShowOnly(BaseScreenType.BS_GAME_OVER);
+        }
         //if (other.gameObject.tag == "Bom")
         //{
         //    PoolCustomize.Instance.HideBaseObject(other.gameObject, "Item", 0.3f);

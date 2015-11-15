@@ -203,5 +203,10 @@ public class TankerEnemy : BaseEnemyObject {
             this.attacking = false;
             groundTarget = null;
         }
+        if (other.tag == "LimiteMap")
+        {
+            Debug.Log("game over !");
+            GameController.Instance.screenController.ShowOnly(BaseScreenType.BS_GAME_OVER);
+        }
     }
 }

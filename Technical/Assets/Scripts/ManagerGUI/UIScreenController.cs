@@ -107,5 +107,6 @@ public enum BaseScreenType
 {
     BS_WORLD_MAP= 0,
     BS_MENU = 1,
-    BS_GAME_PLAY = 2
+    BS_GAME_PLAY = 2,
+    BS_GAME_OVER = 3
 }

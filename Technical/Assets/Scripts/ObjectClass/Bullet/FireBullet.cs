@@ -3,7 +3,6 @@ using System.Collections;
 
 public class FireBullet : BaseBulletObject
 {
-
     public override void InitObject()
     {
         base.InitObject();

@@ -158,17 +158,16 @@ public abstract class BaseBulletObject : BaseMoveObject
             switch(bulletType)
             {
                 case BaseBulletType.BL_SLOW:
-                    baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_SLOW, 2.5f, 0.5f);
+                    baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_SLOW, 3f, 0.5f);
                     //ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_HYPNOSIS, other.transform.position);
                     baseEnemy.SetColor(new Color(0, 0.5f, 0));
                     break;
                 case BaseBulletType.BL_HYPNOSIS:
-                    baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_HYPNOSIS, 2.0f, 0);
+                    baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_HYPNOSIS, 1.5f, 0);
                     ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_HYPNOSIS, transform.position);
                     baseEnemy.direction = BaseDirectionType.UP;
                     break;
                 case BaseBulletType.BL_ARMOR:
-                    Debug.Log("-armor");
                     if(bulletType == BaseBulletType.BL_ARMOR  && baseEnemy.armor !=0)
                     {
                         baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_ARMOR, 2.0f, 10);
@@ -200,7 +199,7 @@ public abstract class BaseBulletObject : BaseMoveObject
                 }
                 else 
                 {
-                    if (baseEnemy.isFling == false)
+                    if (baseEnemy.isFling == false && bulletType != BaseBulletType.BL_ARMOR && bulletType != BaseBulletType.BL_HYPNOSIS && bulletType != BaseBulletType.BL_STUN && bulletType != BaseBulletType.BL_SLOW)
                     {
                         baseEnemy.ReceiveDamge(damge);
                     }

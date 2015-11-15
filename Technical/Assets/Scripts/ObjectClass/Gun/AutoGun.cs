@@ -138,7 +138,7 @@ public class AutoGun : BaseGunObject, IAnimatedSprite {
                 //gunAnimator.speed = animationSpeed;
                 gunAnimator.SetBool("isShoot", true);
                 //
-                AudioManager.Instance.PlayOneShot(BaseAudioType.BA_GUN_SHOOT_AUDIO);
+                AudioManager.Instance.PlayOneShot(BaseAudioType.BA_GUN_SUPPORT);
                 GunRotate(enemyPosition);
                 this.SpawnOfBullet();
             }

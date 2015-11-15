@@ -12,5 +12,8 @@ public enum BaseAudioType{
     BA_GAMEPLAY_AUDIO = 6,
     BA_GAMEOVER_AUDIO = 7,
     BA_ENEMY_BOM_ITEM = 8,
-    BA_AK_GUN_SHOOT = 9
+    BA_AK_GUN_SHOOT = 9,
+    BA_SPAWN_ENEMY = 10,
+    BA_GUN_SUPPORT = 11,
+    BA_BUTTON_CLICK =12
 }

@@ -201,6 +201,11 @@ public class EnemyWizard : BaseEnemyObject {
                 ReceiveDamge(basebullet.Damge);
             }
         }
+        if (other.tag == "LimiteMap")
+        {
+            Debug.Log("game over !");
+            GameController.Instance.screenController.ShowOnly(BaseScreenType.BS_GAME_OVER);
+        }
     }
     public void OnTriggerExit2D(Collider2D other)
     {

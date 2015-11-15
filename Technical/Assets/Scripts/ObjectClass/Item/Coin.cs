@@ -21,6 +21,7 @@ public class Coin : BaseMoveItemObject {
         vy = velocityNormalY;
         Invoke("WaitMoveUp", timeMove);
         isMove = false;
+        transform.localScale = Vector3.one;
         
     }
 

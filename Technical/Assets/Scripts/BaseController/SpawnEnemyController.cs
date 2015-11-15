@@ -89,6 +89,7 @@ public class SpawnEnemyController : MonoSingleton<SpawnEnemyController> {
         }
         //isSpawn = false;
         groupEnemyCurrentIndex += 1;
+        AudioManager.Instance.PlayOneShot(BaseAudioType.BA_SPAWN_ENEMY);
     }
 
     public void SpawnGroupEnemy()
@@ -108,6 +109,7 @@ public class SpawnEnemyController : MonoSingleton<SpawnEnemyController> {
         }
         //isSpawn = false;
         groupEnemyCurrentIndex += 1;
+        
     }
 
     public Vector3 RandomPosition(ref List<Vector3> positionArr, int row, int column)
