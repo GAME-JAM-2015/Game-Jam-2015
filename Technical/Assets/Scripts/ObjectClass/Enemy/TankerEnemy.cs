@@ -6,8 +6,6 @@ public class TankerEnemy : BaseEnemyObject {
     // enemy fly
     public Transform hitPosition;
 
-    //public int armor = 10;
-
     public override void InitObject()
     {
         base.InitObject();
@@ -23,145 +21,6 @@ public class TankerEnemy : BaseEnemyObject {
     public override void Move()
     {
         base.Move();
-        //vx += accelerationNormalX * Time.deltaTime;
-        //vy += accelerationNormalY * Time.deltaTime;
-        ////
-        //if (effectRenderer.Contains(BaseStatModifierType.BSM_SLOW))
-        //{
-        //    if (!effectRenderer.RemoveStatModifier(BaseStatModifierType.BSM_SLOW))
-        //    {
-        //        switch (direction)
-        //        {
-        //            case BaseDirectionType.UP:
-        //                positionBegin.y += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vy * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.LEFT:
-        //                positionBegin.x -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vx * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.RIGHT:
-        //                positionBegin.x += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vx * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.DOWN:
-        //                //Debug.Log(effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW));
-        //                positionBegin.y -= (effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vy) * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.LEFT_UP:
-        //                positionBegin.x -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vx * Time.deltaTime;
-        //                positionBegin.y += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vy * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.RIGHT_UP:
-        //                positionBegin.x += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vx * Time.deltaTime;
-        //                positionBegin.y += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vy * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.LEFT_DOWN:
-        //                positionBegin.x -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vx * Time.deltaTime;
-        //                positionBegin.y -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vy * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.RIGHT_DOWN:
-        //                positionBegin.x += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vx * Time.deltaTime;
-                        
-        //                positionBegin.y -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW) * vy * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.NONE:
-        //                break;
-        //            default:
-        //                break;
-        //        }
-        //        //vx *= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW);
-        //        //vy *= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_SLOW);
-        //        //Remove khi het thoi gian
-        //    }
-        //    else
-        //    {
-        //        this.SetColor(new Color(255, 255, 255));
-        //    }
-        //    //heffectRenderer.RemoveStatModifier(BaseStatModifierType.BSM_SLOW);
-        //}
-        //else if (effectRenderer.Contains(BaseStatModifierType.BSM_STUN))
-        //{
-        //    if (!effectRenderer.RemoveStatModifier(BaseStatModifierType.BSM_STUN))
-        //    {
-        //        switch (direction)
-        //        {
-        //            case BaseDirectionType.UP:
-        //                positionBegin.y += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vy * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.LEFT:
-        //                positionBegin.x -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vx * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.RIGHT:
-        //                positionBegin.x += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vx * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.DOWN:
-        //                positionBegin.y -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vy * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.LEFT_UP:
-        //                positionBegin.x -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vx * Time.deltaTime;
-        //                positionBegin.y += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vy * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.RIGHT_UP:
-        //                positionBegin.x += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vx * Time.deltaTime;
-        //                positionBegin.y += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vy * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.LEFT_DOWN:
-        //                positionBegin.x -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vx * Time.deltaTime;
-        //                positionBegin.y -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vy * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.RIGHT_DOWN:
-        //                positionBegin.x += effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vx * Time.deltaTime;
-        //                positionBegin.y -= effectRenderer.GetStatModifier(BaseStatModifierType.BSM_STUN) * vy * Time.deltaTime;
-        //                break;
-        //            case BaseDirectionType.NONE:
-        //                break;
-        //            default:
-        //                break;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("enemy bi huy stun!");
-        //        this.SetColor(new Color(255, 255, 255));
-        //    }
-        //}
-        //else
-        //{
-        //    switch (direction)
-        //    {
-        //        case BaseDirectionType.UP:
-        //            positionBegin.y += vy * Time.deltaTime;
-        //            break;
-        //        case BaseDirectionType.LEFT:
-        //            positionBegin.x -= vx * Time.deltaTime;
-        //            break;
-        //        case BaseDirectionType.RIGHT:
-        //            positionBegin.x += vx * Time.deltaTime;
-        //            break;
-        //        case BaseDirectionType.DOWN:
-        //            positionBegin.y -= vy * Time.deltaTime;
-        //            break;
-        //        case BaseDirectionType.LEFT_UP:
-        //            positionBegin.x -= vx * Time.deltaTime;
-        //            positionBegin.y += vy * Time.deltaTime;
-        //            break;
-        //        case BaseDirectionType.RIGHT_UP:
-        //            positionBegin.x += vx * Time.deltaTime;
-        //            positionBegin.y += vy * Time.deltaTime;
-        //            break;
-        //        case BaseDirectionType.LEFT_DOWN:
-        //            positionBegin.x -= vx * Time.deltaTime;
-        //            positionBegin.y -= vy * Time.deltaTime;
-        //            break;
-        //        case BaseDirectionType.RIGHT_DOWN:
-        //            positionBegin.x += vx * Time.deltaTime;
-        //            positionBegin.y -= vy * Time.deltaTime;
-        //            break;
-        //        case BaseDirectionType.NONE:
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
-        //transform.position = positionBegin;
     }
 
     public override void ReceiveDamge(float damge)
@@ -182,7 +41,6 @@ public class TankerEnemy : BaseEnemyObject {
         }
         catch
         {
-
         }
     }
 
@@ -219,7 +77,6 @@ public class TankerEnemy : BaseEnemyObject {
             }
         }
     }
-
     public override void Idle()
     {
         if (healthPoint <= 0)
@@ -302,6 +159,9 @@ public class TankerEnemy : BaseEnemyObject {
         base.DestroyObject();
         ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_DIE, transform.position);
         PoolCustomize.Instance.HideBaseObject(gameObject, "Enemy");
+#if UNITY_EDITOR
+        
+#endif 
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -314,44 +174,6 @@ public class TankerEnemy : BaseEnemyObject {
             groundTarget = baseWallObject;
             //baseWallObject.ReceiveDamge(this.damge);
         }
-        //if(other.gameObject.tag == "Bom")
-        //{
-        //    PoolCustomize.Instance.HideBaseObject(other.gameObject, "Item", 0.3f);
-        //    float timeRandom = Random.Range(0.2f, 0.8f);
-        //    Invoke("InstantialeParticalExplosion", timeRandom);
-        //    Item1 itemBom = other.gameObject.GetComponent<Item1>();
-        //    ReceiveDamge(itemBom.damge);
-        //    //Debug.Log(timeRandom);
-        //}
-        //if(other.gameObject.tag == "Bullet")
-        //{
-        //    BaseBulletObject baseBullet = other.gameObject.GetComponent<BaseBulletObject>();
-        //    switch(baseBullet.BulletType)
-        //    {
-        //        case BaseBulletType.BL_HYPNOSIS:
-        //            ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_HYPNOSIS, transform.position);
-        //            direction = BaseDirectionType.UP;
-        //            Invoke("AllowHypnosis", timeAllowhypnosis);
-        //            break;
-        //        case BaseBulletType.BL_FLY:
-        //            objUmbrella.SetActive(false);
-        //            objShowHP.SetActive(true);
-        //            break;
-        //        case BaseBulletType.BL_ARMOR:
-        //            //Debug.Log(armor);
-        //            if(gameObjectType == BaseObjectType.OBE_ENEMY_ARMOR && armor !=0)
-        //            {
-        //                effectRenderer.AddStatModifier(BaseStatModifierType.BSM_ARMOR, 2.0f, 10);
-        //                armor = 0;
-        //                //Debug.Log(armor);
-        //                ReceiveDamge(baseBullet.Damge);
-        //            }
-        //            break;
-        //        default:
-
-        //            break;
-        //    }
-        //}
         if(other.tag == "Diffuse")
         {
             PoolCustomize.Instance.HideBaseObject(other.gameObject, "Item", 0.3f); 

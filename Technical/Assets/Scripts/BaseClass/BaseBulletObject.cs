@@ -159,7 +159,7 @@ public abstract class BaseBulletObject : BaseMoveObject
             {
                 case BaseBulletType.BL_SLOW:
                     baseEnemy.effectRenderer.AddStatModifier(BaseStatModifierType.BSM_SLOW, 2.5f, 0.5f);
-                    ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_HYPNOSIS, other.transform.position);
+                    //ManagerObject.Instance.SpawnPartical(BaseObjectType.OBP_ENEMY_HYPNOSIS, other.transform.position);
                     baseEnemy.SetColor(new Color(0, 0.5f, 0));
                     break;
                 case BaseBulletType.BL_HYPNOSIS:
@@ -183,6 +183,9 @@ public abstract class BaseBulletObject : BaseMoveObject
                         baseEnemy.objUmbrella.SetActive(false);
                         baseEnemy.objShowHP.SetActive(true);
                     }
+                    break;
+                case BaseBulletType.BL_STUN:
+                    isStun = true;
                     break;
                 default:
                     //baseEnemy.ReceiveDamge(damge);

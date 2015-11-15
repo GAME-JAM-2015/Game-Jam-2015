@@ -28,6 +28,7 @@ public enum BaseObjectType
     OBP_BOM_ITEM_EXPLOSION =  1505,
     OBP_ENEMY_HYPNOSIS = 1506,
     OBP_ENEMY_STUN = 1507,
+    OBP_ENEMY_ADDITION_HP =1508,
     //UI
     OU_COIN = 20,
     OU_NUMBER = 21,
