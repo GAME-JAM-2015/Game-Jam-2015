@@ -11,12 +11,14 @@ public class UITileGrid : MonoBehaviour {
     //
     public void Init()
     {
+        CancelInvoke("SpawnEnemy");
+        isSpawnEnemy = false;
         Invoke("SpawnEnemy", Random.Range(timeRandom.x, timeRandom.y));
     }
 
     void Update()
     {
-        if (!acceptSpawnEnemy || InitEnemyController.Instance.isFinished)
+        if (!acceptSpawnEnemy || InitEnemyController.Instance.isFinishedStage)
             return;
         if (isSpawnEnemy)
         {

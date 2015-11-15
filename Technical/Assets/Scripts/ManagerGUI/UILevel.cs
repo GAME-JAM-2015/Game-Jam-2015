@@ -12,6 +12,6 @@ public class UILevel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        currentLevel.text = SpawnEnemyController.Instance.groupEnemyCurrentIndex.ToString();
+        currentLevel.text = InitEnemyController.Instance.groupEnemyCurrentIndex.ToString();
 	}
 }

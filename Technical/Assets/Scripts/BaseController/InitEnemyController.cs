@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class InitEnemyController : MonoSingleton<InitEnemyController> {
 
-    const int ENEMY_GROUP_MAX = 5;
+    const int ENEMY_GROUP_MAX = 10;
     public int groupEnemyCurrentIndex; //Dot thu bao nhieu
     public List<BaseEnemyObject> enemyInScreen;
     public Transform tranformBossAppear;// vi tri xuat hien boss
@@ -15,7 +15,8 @@ public class InitEnemyController : MonoSingleton<InitEnemyController> {
     public int gridCol;
     public int gridRow;
     //
-    public bool isFinished;
+    public bool isFinishedStage;
+    public bool isFinishedLevel;
     public Dictionary<BaseObjectType, int> dicEnemyOfEpisode;
     void Start()
     {
@@ -27,20 +28,32 @@ public class InitEnemyController : MonoSingleton<InitEnemyController> {
 
     void Update()
     {
-        if (groupEnemyCurrentIndex < ENEMY_GROUP_MAX && enemyInScreen.Count <= 0)
+        if (isFinishedStage)
         {
-            //Invoke("SpawnGroupEnemy", timeWaitSpawnEnemyNormal);
-            //SpawnGroupEnemy();
-            //isSpawn = true;
-            
+            if (groupEnemyCurrentIndex < ENEMY_GROUP_MAX && enemyInScreen.Count <= 0)
+            {
+                //Invoke("SpawnGroupEnemy", timeWaitSpawnEnemyNormal);
+                //SpawnGroupEnemy();
+                //isSpawn = true;
+                groupEnemyCurrentIndex++;
+                GameController.Instance.player.cowboyEpisode++;
+                UpdateGrid();
+                dicEnemyOfEpisode.Clear();  
+                isFinishedStage = false;
+            }
+            else if (groupEnemyCurrentIndex >= ENEMY_GROUP_MAX)
+            {
+                isFinishedLevel = true;
+            }
         }
-        else if (isCreateBoss && enemyInScreen.Count <= 0)
-        {
-            isFinished = true;
-            GameObject obj_Boss = ManagerObject.Instance.SpawnEnemy(BaseObjectType.OB_BOSS_TANKER, tranformBossAppear.position);
-            //SpawnGroupEnemy();
-            isCreateBoss = false;
-        }
+        
+        //else if (isCreateBoss && enemyInScreen.Count <= 0)
+        //{
+        //    isFinished = true;
+        //    GameObject obj_Boss = ManagerObject.Instance.SpawnEnemy(BaseObjectType.OB_BOSS_TANKER, tranformBossAppear.position);
+        //    //SpawnGroupEnemy();
+        //    isCreateBoss = false;
+        //}
     }
 
     void CreateGrid()
@@ -117,6 +130,74 @@ public class InitEnemyController : MonoSingleton<InitEnemyController> {
                 }
                 gridTiles.Add(uiTileGrid);
 
+            }
+        }
+    }
+
+    void UpdateGrid()
+    {
+        int cowboyLevel = 1;
+        int cowbowEpisode = 2;
+        CowboyRandomConfig cowboyRandomConfig = null;
+        if (GameController.Instance.player != null)
+        {
+            cowboyLevel = GameController.Instance.player.cowboyLevel;
+            cowbowEpisode = GameController.Instance.player.cowboyEpisode;
+        }
+        else
+        {
+#if UNITY_EDITOR
+            Debug.Log("Chua co du lieu nguoi dung");
+#endif
+        }
+        cowboyRandomConfig = BaseLoadData.cowboyRandomConfig.Find(x => x.cowboyLevel == cowboyLevel &&
+                                                                x.cowboyEpisode == cowbowEpisode);
+        CowboyTimeConfig cowboyTimeConfig = null;
+        int count = 0;
+        foreach (var gridTile in gridTiles)
+        {
+            gridTile.isUsed = false;
+            if (count++ < 7 && cowboyRandomConfig != null)
+            {
+                gridTile.acceptSpawnEnemy = true;
+                switch (count)
+                {
+                    case 0:
+                        cowboyTimeConfig = BaseLoadData.cowboyTimeConfig.Find(x => x.timeID == cowboyRandomConfig.cowboyLaneOne);
+                        break;
+                    case 1:
+                        cowboyTimeConfig = BaseLoadData.cowboyTimeConfig.Find(x => x.timeID == cowboyRandomConfig.cowboyLaneTwo);
+                        break;
+                    case 2:
+                        cowboyTimeConfig = BaseLoadData.cowboyTimeConfig.Find(x => x.timeID == cowboyRandomConfig.cowboyLaneThree);
+                        break;
+                    case 3:
+                        cowboyTimeConfig = BaseLoadData.cowboyTimeConfig.Find(x => x.timeID == cowboyRandomConfig.cowboyLaneFour);
+                        break;
+                    case 4:
+                        cowboyTimeConfig = BaseLoadData.cowboyTimeConfig.Find(x => x.timeID == cowboyRandomConfig.cowboyLaneFive);
+                        break;
+                    case 5:
+                        cowboyTimeConfig = BaseLoadData.cowboyTimeConfig.Find(x => x.timeID == cowboyRandomConfig.cowboyLaneSix);
+                        break;
+                    case 6:
+                        cowboyTimeConfig = BaseLoadData.cowboyTimeConfig.Find(x => x.timeID == cowboyRandomConfig.cowboyLaneSeven);
+                        break;
+                    default:
+                        break;
+                }
+                if (cowboyTimeConfig != null)
+                {
+                    gridTile.timeRandom = new Vector2(cowboyTimeConfig.timeMin, cowboyTimeConfig.timeMax);
+                    gridTile.Init();
+                }
+                else
+                {
+                    gridTile.acceptSpawnEnemy = false;
+#if UNITY_EDITOR
+                    Debug.Log("Bo oi! Thang nay chua duoc config hay la no ko co config");
+#endif
+                }
             }
         }
     }
@@ -223,7 +304,7 @@ public class InitEnemyController : MonoSingleton<InitEnemyController> {
                 }
                 else
                 {
-                    isFinished = true;
+                    isFinishedStage = true;
                 }
             }
         }
@@ -254,7 +335,7 @@ public class InitEnemyController : MonoSingleton<InitEnemyController> {
                     }
                     else
                     {
-                        isFinished = true;
+                        isFinishedStage = true;
                     }
                 }
             }
@@ -273,7 +354,6 @@ public class InitEnemyController : MonoSingleton<InitEnemyController> {
             baseEnemy.ResetValueOfAvariable();
             baseEnemy.healthBegin += 50;
             enemyInScreen.Add(baseEnemy);
-            groupEnemyCurrentIndex += 1;
         }
         else
         {

@@ -269,9 +269,9 @@ public abstract class BaseEnemyObject : BaseMoveObject
     public override void DestroyObject()
     {
         //Huy doi tuong khoi danh sach spawn
-        if (SpawnEnemyController.Instance.enemyInScreen.Contains(this))
+        if (InitEnemyController.Instance.enemyInScreen.Contains(this))
         {
-            SpawnEnemyController.Instance.enemyInScreen.Remove(this);
+            InitEnemyController.Instance.enemyInScreen.Remove(this);
         }
         GiveCoin();
     }
