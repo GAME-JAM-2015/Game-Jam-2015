@@ -63,7 +63,7 @@ public abstract class BaseEnemyObject : BaseMoveObject
         //gameObjectType = BaseObjectType.OB_ENEMY;
         positionBegin = transform.position;
         InitStateMachine();
-        if(gameObjectType == BaseObjectType.OBE_ENEMY_ARMOR)
+        if(gameObjectType == BaseObjectType.OBE_ENEMY_ANTIDAMAGE)
         {
             armor = 10;
         }
